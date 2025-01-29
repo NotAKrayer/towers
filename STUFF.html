@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower Progress Tracker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        .container {
+            background: #2d2d2d;
+            border: 1px solid #3d3d3d;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid #3d3d3d;
+        }
+
+        th {
+            background-color: #333;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #b0b0b0;
+        }
+
+        tr:hover {
+            background-color: #333333;
+        }
+
+        .status-btn {
+            cursor: pointer;
+            font-size: 1.1em;
+            background: none;
+            border: none;
+            padding: 0;
+            transition: opacity 0.2s;
+            color: #e0e0e0;
+        }
+
+        .status-btn:hover {
+            opacity: 0.8;
+        }
+
+        .difficulty {
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-weight: 500;
+            font-size: 12px;
+            display: inline-block;
+            min-width: 80px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Color definitions */
+        .Effortless { background-color: #00CE00; color: white; }
+        .Easy { background-color: #75F347; color: #1a1a1a; }
+        .Medium { background-color: #FFFE00; color: #1a1a1a; }
+        .Hard { background-color: #FD7C00; color: white; }
+        .Difficult { background-color: #FF3232; color: white; }
+        .Challenging { background-color: #A00000; color: white; }
+        .Intense { background-color: #19232D; color: white; }
+        .Remorseless { background-color: #C800C8; color: white; }
+        .Insane { background-color: #0000FF; color: white; }
+        .Extreme { background-color: #0389FF; color: white; }
+        .Terrifying { background-color: #00FFFF; color: #1a1a1a; }
+        .Catastrophic { background-color: #FFFFFF; color: #1a1a1a; border: 1px solid #e0e0e0; }
+        .Horrific { background-color: #9695FF; color: white; }
+        .Unreal { background-color: #5100CB; color: white; }
+
+        a {
+            color: #4dabf7;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+
+        a:hover {
+            text-decoration: none;
+            background: rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table id="towerTable">
+            <thead>
+                <tr>
+                    <th style="width: 60px;">Status</th>
+                    <th>Tower Name</th>
+                    <th style="width: 120px;">Difficulty</th>
+                    <th style="width: 150px;">Link</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Rows will be added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        if (!localStorage.getItem('towers')) {
+            localStorage.setItem('towers', JSON.stringify({}));
+        }
+
+        function addTower(towerId, name, difficulty, link) {
+            const tbody = document.getElementById('tableBody');
+            const storage = JSON.parse(localStorage.getItem('towers'));
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <button class="status-btn" onclick="toggleStatus('${towerId}')">
+                        ${storage[towerId] ? '✅' : '◯'}
+                    </button>
+                </td>
+                <td>${name}</td>
+                <td><span class="difficulty ${difficulty}">${difficulty}</span></td>
+                <td><a href="${link}" target="_blank" rel="noopener">Tower Link</a></td>
+            `;
+            
+            tbody.appendChild(row);
+        }
+
+        function toggleStatus(towerId) {
+            const storage = JSON.parse(localStorage.getItem('towers'));
+            storage[towerId] = !storage[towerId];
+            localStorage.setItem('towers', JSON.stringify(storage));
+            
+            const btn = document.querySelector(`button[onclick="toggleStatus('${towerId}')"]`);
+            btn.innerHTML = storage[towerId] ? '✅' : '◯';
+        }
+        
+        addTower('t1', 'Tower of Wasting Time', 'Easy', 'https://www.roblox.com/games/6483661780/Tower-of-Wasting-Time#!/game-instances');
+        addTower('t2', 'Tower of Perfectly Aligning Parts', 'Easy', 'https://www.roblox.com/games/6173224475/Tower-of-Perfectly-Aligning-Parts');
+        addTower('t3', 'Tower of Minor Irritation', 'Easy', 'https://www.roblox.com/games/6572844254/Tower-of-Minor-Irritation?refPageId=a2cec7f7-3f70-4395-82cb-34961db6583b');
+        addTower('t4', 'Tower of Terribly Easy Teachings', 'Easy', 'https://www.roblox.com/games/6745268836/Tower-of-Terribly-Easy-Teachings');
+        addTower('t5', 'Tower of A Beginners Journey', 'Easy', 'https://www.roblox.com/games/6932167619/Tower-of-A-Beginners-Journey');
+        addTower('t6', 'Tower of Spiraling Heights: UPDATED', 'Easy', 'https://www.roblox.com/games/7394841497/Tower-of-Spiraling-Heights');
+        addTower('t7', 'Tower of Placid Travels', 'Easy', 'https://www.roblox.com/games/7473577489/Tower-of-Placid-Tranquil-Travels');
+        addTower('t8', 'Tower of Quiet Views', 'Easy', 'https://www.roblox.com/games/9422571930/tower-of-quiet-views');
+        addTower('t9', 'Tower of Joyous Prospects', 'Easy', 'https://www.roblox.com/games/10570871112/Tower-of-Joyfullness');
+        addTower('t10', 'Tower of Unhealthy Compaction', 'Easy', 'https://www.roblox.com/games/12230513050/r3-tower');
+        addTower('t11', 'Tower of Light Hues', 'Easy', 'https://www.roblox.com/games/10291844674/col');
+        addTower('t12', 'Tower of No Idea', 'Easy', 'https://www.roblox.com/games/14536524905');
+        addTower('t13', 'Tower of Shameful Basicness', 'Easy', 'https://www.roblox.com/games/17133607698/Tower-of-Shameful-Basicness');
+        addTower('t14', 'Tower of Three Quartered Spiraling', 'Easy', 'https://www.roblox.com/games/16301955188/Tower-of-Three-Quartered-Spiraling');
+    </script>
+</body>
+</html>
